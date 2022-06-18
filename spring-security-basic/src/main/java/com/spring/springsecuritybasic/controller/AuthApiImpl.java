@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class AuthApiImpl implements AuthApi{
     @Override
     public ResponseEntity getTestV1() {
         log.info("Test API 호출");
-        return new ResponseEntity(new TestDto("Test Done!"), HttpStatus.OK);
+        return new ResponseEntity("Test API Called", HttpStatus.OK);
     }
 
     @Override
