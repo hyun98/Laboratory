@@ -1,14 +1,38 @@
 package com.spring.springsecuritybasic.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
+
+import java.util.List;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "USER_ROLE")
 @Getter
-public enum UserRole {
-    ROLE_ADMIN("관리자"), ROLE_MANAGER("매니저"), ROLE_MEMBER("일반사용자");
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class UserRole implements GrantedAuthority {
+    
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ROLE_ID")
+    private Long id;
 
-    private String description;
+    private String roleName;
 
-    UserRole(String description) {
-        this.description = description;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
+
+    public UserRole(String roleName) {
+        this.roleName = roleName;
+    }
+    
+    @Override
+    public String getAuthority() {
+        return roleName;
     }
 }

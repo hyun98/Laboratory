@@ -2,6 +2,8 @@ package com.spring.springsecuritybasic.controller;
 
 import com.spring.springsecuritybasic.domain.User;
 import com.spring.springsecuritybasic.domain.UserRole;
+import com.spring.springsecuritybasic.dto.LoginDto;
+import com.spring.springsecuritybasic.dto.SignInDto;
 import com.spring.springsecuritybasic.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +29,9 @@ public class AuthApiImpl implements AuthApi{
     }
 
     @Override
-    public ResponseEntity loginV1() {
+    public ResponseEntity loginV1(LoginDto loginDto) {
         log.info("Login API 호출");
-        return new ResponseEntity(new LoginDto("User1"), HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Override
@@ -39,30 +41,11 @@ public class AuthApiImpl implements AuthApi{
     }
 
     @Override
-    public ResponseEntity signInV1(UserSignInDto userSignInDto) {
+    public ResponseEntity signInV1(SignInDto userSignInDto) {
         log.info("Sign In API 호출");
 
         User user = userRepository.save(
                 new User(userSignInDto.getName(), userSignInDto.getPassword(), userSignInDto.getUserRole()));
         return new ResponseEntity(user.getId(), HttpStatus.OK);
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class TestDto {
-        private String value;
-    }
-    
-    @Data
-    @AllArgsConstructor
-    static class LoginDto {
-        private String name;
-    }
-    
-    @Data
-    static class UserSignInDto {
-        private String name;
-        private String password;
-        private UserRole userRole;
     }
 }
