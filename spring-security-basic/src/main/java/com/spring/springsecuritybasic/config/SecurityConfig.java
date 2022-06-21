@@ -1,6 +1,8 @@
 package com.spring.springsecuritybasic.config;
 
 import com.spring.springsecuritybasic.config.jwt.JwtAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,25 +12,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
+@Slf4j
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity // spring security filter가 springFilterChain에 등록이 됨
 public class SecurityConfig {
 
-    private final Logger LOG = LoggerFactory.getLogger(SecurityConfig.class);
-
-    @Autowired
-    private CorsConfig corsConfig;
-
-    @Autowired
-    private JwtAuthorizationFilter jwtFilter;
+    private final CorsConfig corsConfig;
+    private final JwtAuthorizationFilter jwtFilter;
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        LOG.info("Custom Filter Chain Bean 생성");
+        log.info("Custom Filter Chain Bean 생성");
 //        JwtAuthorizationFilter jwtFilter = new JwtAuthorizationFilter();
         
         http
@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtFilter, CorsFilter.class)
                 .authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/signin").permitAll()
