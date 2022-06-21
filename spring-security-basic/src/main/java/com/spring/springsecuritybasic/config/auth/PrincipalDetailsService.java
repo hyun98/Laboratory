@@ -24,7 +24,7 @@ public class PrincipalDetailsService implements UserDetailsService {
         List<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User 없음");
-        } 
+        }
         
         return new PrincipalDetails(user.get(0));
     }

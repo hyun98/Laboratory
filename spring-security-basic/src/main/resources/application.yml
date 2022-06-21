@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
@@ -16,3 +16,9 @@ spring:
       
     logging.level:
       org.hibernate.SQL: debug
+
+jwt:
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+  expiration-time: 3600
+  jwt-prefix: jwt
+  header-string: Authorization
