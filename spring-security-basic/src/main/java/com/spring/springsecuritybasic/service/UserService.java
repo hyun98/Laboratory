@@ -1,6 +1,5 @@
 package com.spring.springsecuritybasic.service;
 
-import com.spring.springsecuritybasic.config.auth.PrincipalDetails;
 import com.spring.springsecuritybasic.domain.User;
 import com.spring.springsecuritybasic.domain.UserRole;
 import com.spring.springsecuritybasic.dto.LoginDto;
@@ -9,8 +8,6 @@ import com.spring.springsecuritybasic.dto.TokenDto;
 import com.spring.springsecuritybasic.repository.RoleRepository;
 import com.spring.springsecuritybasic.repository.UserRepository;
 import com.spring.springsecuritybasic.util.JwtUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @Service
