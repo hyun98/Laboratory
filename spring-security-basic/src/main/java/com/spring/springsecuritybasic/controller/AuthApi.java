@@ -5,18 +5,27 @@ import com.spring.springsecuritybasic.dto.SignInDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RequestMapping("/api")
 public interface AuthApi {
 
-    @GetMapping("/test")
+    @GetMapping(value = "/test", produces = "application/json")
     ResponseEntity getTestV1();
 
-    @PostMapping("/auth/login")
-    ResponseEntity loginV1(@RequestBody LoginDto loginDto);
+    @PostMapping(value = "/auth/login", 
+            consumes = "application/json", 
+            produces = "application/json")
+    ResponseEntity loginV1(@RequestBody LoginDto loginDto, HttpServletResponse response);
 
-    @PostMapping("/auth/logout")
-    ResponseEntity logoutV1();
+    @PostMapping(value = "/auth/logout",
+            consumes = "application/json",
+            produces = "application/json")
+    ResponseEntity logoutV1(HttpServletResponse response);
 
-    @PostMapping("/signin")
+    @PostMapping(value = "/auth/signin",
+            consumes = "application/json",
+            produces = "application/json")
     ResponseEntity signInV1(@RequestBody SignInDto userSignInDto);
 }
