@@ -4,27 +4,19 @@ import com.spring.springsecuritybasic.config.auth.PrincipalDetails;
 import com.spring.springsecuritybasic.domain.User;
 import com.spring.springsecuritybasic.repository.UserRepository;
 import com.spring.springsecuritybasic.util.JwtUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -57,9 +49,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // username
         String username = jwtUtil.getPayload(token);
-//        String username = payload;
 
         if (username != null) {
+            // 매번 db에 접근해야 하는가?
+            // token의 핵심은 무상태성인데 인증때마다 매번 db에 접근하면 token을 사용하는 의미가 퇴색?
+            // db 접근 부분이 없어도 될 것 같음
+            // 다중 로그인 여부, 토큰 만료시간과 같은 정책에 영향을 받을 듯하다.
             List<User> userList = userRepository.findByUsername(username);
             if (userList.isEmpty()) {
                 throw new RuntimeException("No User, Authorization Failed");

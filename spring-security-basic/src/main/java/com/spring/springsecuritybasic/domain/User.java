@@ -1,7 +1,5 @@
 package com.spring.springsecuritybasic.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
