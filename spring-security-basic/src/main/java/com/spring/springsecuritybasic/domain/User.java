@@ -1,35 +1,43 @@
 package com.spring.springsecuritybasic.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
+    @Column(name = "user_id")
     private Long id;
     
     private String username;
     
     private String password;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name="user_role",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ROLE_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "USER_ID")})
-    private List<UserRole> roles;
+            name="user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<UserRole> roles = new ArrayList<>();
 
     public User(String username, String password, UserRole userRole) {
+        this.username = username;
+        this.password = password;
+        this.roles.add(userRole);
+    }
+
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.roles = null;

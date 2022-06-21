@@ -1,5 +1,7 @@
 package com.spring.springsecuritybasic.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,30 +9,32 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "USER_ROLE")
+@Table(name = "user_role")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class UserRole implements GrantedAuthority {
-    
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ROLE_ID")
+    @Column(name = "role_id")
     private Long id;
 
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
 
     public UserRole(String roleName) {
         this.roleName = roleName;
     }
-    
+
     @Override
     public String getAuthority() {
         return roleName;
