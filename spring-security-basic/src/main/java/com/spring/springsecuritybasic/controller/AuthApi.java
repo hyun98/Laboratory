@@ -1,8 +1,10 @@
 package com.spring.springsecuritybasic.controller;
 
+import com.spring.springsecuritybasic.config.auth.PrincipalDetails;
 import com.spring.springsecuritybasic.dto.LoginDto;
 import com.spring.springsecuritybasic.dto.SignInDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface AuthApi {
 
     @GetMapping(value = "/test", produces = "application/json")
-    ResponseEntity getTestV1();
+    ResponseEntity getTestV1(@AuthenticationPrincipal PrincipalDetails principalDetails);
 
     @PostMapping(value = "/auth/login", 
             consumes = "application/json", 

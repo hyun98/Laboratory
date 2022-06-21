@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,13 +31,12 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     public TokenDto login(LoginDto loginDto) {
-        List<User> userList = userRepository.findByUsername(loginDto.getUsername());
-
-        if (userList.isEmpty()) {
-            throw new RuntimeException("No User");
+        
+        User user = getByCredentials(loginDto.getUsername(), loginDto.getPassword());
+        if (user == null) {
+            throw new RuntimeException("User Not Found");
         }
-
-        User user = userList.get(0);
+        
         String accessToken = jwtUtil.generateAccessToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
         return new TokenDto(accessToken, refreshToken);
@@ -57,5 +57,19 @@ public class UserService {
 
         return userRepository.save(user);
     }
-    
+
+    private User getByCredentials(String username, String password) {
+        List<User> userList = userRepository.findByUsername(username);
+
+        if (userList.isEmpty()) {
+            throw new RuntimeException("No User");
+        }
+
+        User user = userList.get(0);
+        
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        return null;
+    }
 }

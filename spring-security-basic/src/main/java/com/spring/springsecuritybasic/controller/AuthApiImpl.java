@@ -1,5 +1,6 @@
 package com.spring.springsecuritybasic.controller;
 
+import com.spring.springsecuritybasic.config.auth.PrincipalDetails;
 import com.spring.springsecuritybasic.domain.User;
 import com.spring.springsecuritybasic.dto.LoginDto;
 import com.spring.springsecuritybasic.dto.SignInDto;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +28,9 @@ public class AuthApiImpl implements AuthApi{
     private final UserService userService;
     
     @Override
-    public ResponseEntity getTestV1() {
+    public ResponseEntity getTestV1(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         log.info("Test API 호출");
-        return new ResponseEntity("Test API Called", HttpStatus.OK);
+        return new ResponseEntity(principalDetails.getUsername() + " 이 호출함", HttpStatus.OK);
     }
 
     @Override
