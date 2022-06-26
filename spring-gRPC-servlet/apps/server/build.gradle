@@ -17,6 +17,7 @@ jar {
 }
 
 dependencies {
+	implementation project(":apps:grpc-lib")
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'net.devh:grpc-server-spring-boot-starter:2.13.1.RELEASE'
