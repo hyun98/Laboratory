@@ -1,2 +1,4 @@
 include ":apps:client"
+
 include ":apps:server"
+include ":apps:grpc-lib"
