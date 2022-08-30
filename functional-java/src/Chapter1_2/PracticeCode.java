@@ -1,8 +1,13 @@
 package Chapter1_2;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import static Chapter1_2.Apple.filterApples;
@@ -14,6 +19,7 @@ public class PracticeCode {
     public static void main(String[] args) {
         lambdaTest();
         streamTest();
+        futureBit();
     }
 
     static void lambdaTest() {
@@ -30,6 +36,8 @@ public class PracticeCode {
         prettyPrintApple(inventory, new AppleFancyFormatter());
 
         filterApples(inventory, apple1 -> RED.equals(apple1.getColor()));
+
+        inventory.sort(Comparator.comparing(Apple::getWeight));
     }
 
     static void streamTest() {
@@ -47,5 +55,23 @@ public class PracticeCode {
             System.out.println("len : " + a);
             System.out.println("strings : " + b);
         });
+    }
+
+    static void futureBit() {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        Future<String> submit = executorService.submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return Thread.currentThread().getName();
+            }
+        });
+
+        try {
+            String s = submit.get();
+            System.out.println("s = " + s);
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 }
