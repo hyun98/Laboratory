@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static basic.Apple.filterApples;
+import static basic.Apple.prettyPrintApple;
+import static basic.Color.RED;
 
 public class PracticeCode {
     
@@ -18,11 +19,17 @@ public class PracticeCode {
     static void lambdaTest() {
         List<Apple> inventory = new ArrayList<>();
 
-        Apple apple = new Apple(160);
+        Apple apple = new Apple(160, RED);
         inventory.add(apple);
 
         filterApples(inventory, Apple::isHeavyApple);
         filterApples(inventory, (Apple a) -> a.getWeight() > 150);
+
+        List<Apple> apples = filterApples(inventory, new AppleRedAndHeavyPredicate());
+
+        prettyPrintApple(inventory, new AppleFancyFormatter());
+
+        filterApples(inventory, apple1 -> RED.equals(apple1.getColor()));
     }
 
     static void streamTest() {
