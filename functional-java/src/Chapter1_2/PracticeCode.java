@@ -1,13 +1,13 @@
-package basic;
+package Chapter1_2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static basic.Apple.filterApples;
-import static basic.Apple.prettyPrintApple;
-import static basic.Color.RED;
+import static Chapter1_2.Apple.filterApples;
+import static Chapter1_2.Apple.prettyPrintApple;
+import static Chapter1_2.Color.RED;
 
 public class PracticeCode {
     
