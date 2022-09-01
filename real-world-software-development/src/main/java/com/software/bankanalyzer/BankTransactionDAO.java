@@ -1,4 +1,4 @@
-package main.java.bankanalyzer;
+package com.software.bankanalyzer;
 
 import java.time.LocalDate;
 

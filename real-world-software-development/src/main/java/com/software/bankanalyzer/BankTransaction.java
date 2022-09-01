@@ -1,4 +1,4 @@
-package main.java.bankanalyzer;
+package com.software.bankanalyzer;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -48,5 +48,16 @@ public class BankTransaction {
     @Override
     public int hashCode() {
         return Objects.hash(date, amount, description);
+    }
+
+    public Notification validate() {
+
+        final Notification notification = new Notification();
+        if (this.description.length() > 100) {
+            notification.addError("The description is too Long");
+        }
+
+        final LocalDate parsedDate;
+        return notification;
     }
 }

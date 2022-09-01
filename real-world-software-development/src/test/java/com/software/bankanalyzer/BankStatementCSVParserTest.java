@@ -1,14 +1,11 @@
-package test.bankanalyzer;
+package com.software.bankanalyzer;
 
-import main.java.bankanalyzer.BankStatementCSVParser;
-import main.java.bankanalyzer.BankStatementParser;
-import main.java.bankanalyzer.BankTransaction;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankStatementCSVParserTest {
 

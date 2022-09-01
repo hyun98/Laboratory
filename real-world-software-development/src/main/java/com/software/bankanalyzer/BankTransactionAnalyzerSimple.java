@@ -1,10 +1,9 @@
-package main.java.bankanalyzer;
+package com.software.bankanalyzer;
 
 import java.io.IOException;
 
 public class BankTransactionAnalyzerSimple {
     
-
     public static void main(String[] args) throws IOException {
 
         final BankStatementAnalyzer bankStatementAnalyzer 
