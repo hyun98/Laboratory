@@ -1,12 +1,26 @@
 package Chapter1_2;
 
+import Chapter3_lambda.Fruit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Apple {
+import static Chapter1_2.Color.GREEN;
+
+
+public class Apple implements Fruit {
+    
     private int weight;
 
-    private Color color;
+    private Color color = GREEN;
+
+    public Apple() {
+
+    }
+
+    public Apple(int weight) {
+        this.weight = weight;
+    }
 
     public Apple(int weight, Color color) {
         this.weight = weight;
@@ -16,7 +30,7 @@ public class Apple {
     public Integer getWeight() {
         return weight;
     }
-    
+
     public Color getColor() {
         return color;
     }
@@ -41,5 +55,13 @@ public class Apple {
             String output = formatter.accept(apple);
             System.out.println(output);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Apple{" +
+                "weight=" + weight +
+                ", color=" + color +
+                '}';
     }
 }
