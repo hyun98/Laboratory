@@ -35,11 +35,11 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .addFilterAfter(jwtFilter, CorsFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/auth/signin").permitAll()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/**/auth/login").permitAll()
+                .antMatchers("/api/**/auth/signin").permitAll()
+                .antMatchers("/api/**/auth/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/test/**")
+                .antMatchers("/api/**/test/**")
                 .access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .anyRequest().permitAll();
         

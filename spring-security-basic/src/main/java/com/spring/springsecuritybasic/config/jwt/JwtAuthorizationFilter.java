@@ -31,6 +31,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER_STRING = "Authorization";
     private static final String JWT_PREFIX = "jwt ";
     
+    
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
