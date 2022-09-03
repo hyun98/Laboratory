@@ -10,7 +10,7 @@ public class Document {
         this.attributes = attributes;
     }
 
-    public String getAttributes(final String attributeName) {
+    public String getAttribute(final String attributeName) {
         return attributes.get(attributeName);
     }
 }

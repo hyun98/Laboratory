@@ -10,6 +10,7 @@ import java.util.Map;
 import static com.software.documentmanager.Attributes.*;
 
 public class ImageImporter implements Importer {
+    
     @Override
     public Document importFile(final File file) throws IOException {
         final Map<String, String> attributes = new HashMap<>();
