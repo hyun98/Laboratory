@@ -1,117 +1,62 @@
 package Chapter5_Stream;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-
-import static java.util.Comparator.comparing;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class PracticeCode {
 
-    private static Trader raoul = new Trader("Raoul", "Cambridge");
-    private static Trader mario = new Trader("Mario", "Milan");
-    private static Trader alan = new Trader("Alan", "Cambridge");
-    private static Trader brian = new Trader("Brian", "Cambridge");
-
-    private static final List<Transaction> transactions = Arrays.asList(
-            new Transaction(brian, 2011, 300),
-            new Transaction(raoul, 2012, 1000),
-            new Transaction(raoul, 2011, 400),
-            new Transaction(mario, 2012, 710),
-            new Transaction(mario, 2012, 700),
-            new Transaction(alan, 2012, 950)
-    );
-    
     
     public static void main(String[] args) {
-        mission1();
-        line();
-        mission2();
-        line();
-        mission3();
-        line();
-        mission4();
-        line();
-        mission5();
-        line();
-        mission6();
-        line();
-        mission7();
-        line();
-        mission8();
+        iterateMethod();
+        quiz5_4_fibo();
     }
 
-    static void line() {
-        System.out.println("-----------");
-    }
 
-    static void mission1() {
-        transactions.stream()
-                .filter(t -> t.getYear() == 2011)
-                .sorted(comparing(Transaction::getValue))
-                .forEach(System.out::println);
-    }
-
-    static void mission2() {
-        transactions.stream()
-                .map(t -> t.getTrader().getCity())
-                .distinct()
-                .forEach(System.out::println);
+    static void pythagoreanTriples() {
+        IntStream.rangeClosed(1, 100).boxed()
+                .flatMap(a -> IntStream.rangeClosed(1, 100)
+                        .filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+                        .mapToObj(b -> new double[]{a, b, Math.sqrt(a * a + b * b)})
+                        .filter(t -> t[2] % 1 == 0));
         
-        // another answer
-        // distinct 대신
-        Set<String> res2 = transactions.stream()
-                .map(t -> t.getTrader().getCity())
-                .collect(Collectors.toSet());
     }
 
-    static void mission3() {
-        transactions.stream()
-                .map(Transaction::getTrader)
-                .filter(trader -> trader.getCity().equals("Cambridge"))
-                .distinct()
-                .sorted(comparing(Trader::getName))
+    static void iterateMethod() {
+        Stream.iterate(0, n -> n + 2)
+                .limit(10)
                 .forEach(System.out::println);
     }
 
-    static void mission4() {
-        String res1 = transactions.stream()
-                .map(t -> t.getTrader().getName())
-                .distinct()
-                .sorted()
-                .reduce(" ", (a, b) -> a + b);
+    static void quiz5_4_fibo() {
+        UnaryOperator<int[]> function = (int[] lst) -> new int[]{lst[1], lst[0] + lst[1]};
+        Stream.iterate(new int[]{0, 1}, function)
+                .limit(20)
+                .map(t -> t[0])
+                .forEach(System.out::println);
 
-        String res2 = transactions.stream()
-                .map(t -> t.getTrader().getName())
-                .distinct()
-                .sorted()
-                .collect(Collectors.joining(" "));
-    }
+        IntSupplier fib = new IntSupplier() {
+            private int prev = 0;
+            private int curr = 1;
 
-    static void mission5() {
-        boolean isMilan = transactions.stream()
-                .anyMatch(t -> t.getTrader().getCity().equals("Milan"));
-        System.out.println(isMilan);
+            @Override
+            public int getAsInt() {
+                int old = this.prev;
+                int next = this.curr + this.prev;
+                this.prev = this.curr;
+                this.curr = next;
+                return old;
+            }
+        };
+        
+        IntStream.generate(fib).limit(10).forEach(System.out::println);
     }
-
-    static void mission6() {
-        int cambridgeSum = transactions.stream()
-                .filter(t -> t.getTrader().getCity().equals("Cambridge"))
-                .map(Transaction::getValue)
-                .reduce(0, Integer::sum);
-        System.out.println("sum : " + cambridgeSum);
-    }
-
-    static void mission7() {
-        int maxValue = transactions.stream()
-                .map(Transaction::getValue)
-                .reduce(0, Integer::max);
-        System.out.println(maxValue);
-    }
-
-    static void mission8() {
-        Optional<Integer> reduce = transactions.stream()
-                .map(Transaction::getValue)
-                .reduce(Integer::min);
-        System.out.println(reduce.orElse(-1));
-    }
+    
 }
