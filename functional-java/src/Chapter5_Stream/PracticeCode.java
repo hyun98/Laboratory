@@ -1,13 +1,7 @@
 package Chapter5_Stream;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -35,7 +29,7 @@ public class PracticeCode {
                 .forEach(System.out::println);
     }
 
-    static void quiz5_4_fibo() {
+     static void quiz5_4_fibo() {
         UnaryOperator<int[]> function = (int[] lst) -> new int[]{lst[1], lst[0] + lst[1]};
         Stream.iterate(new int[]{0, 1}, function)
                 .limit(20)

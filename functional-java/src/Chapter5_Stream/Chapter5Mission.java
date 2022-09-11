@@ -1,6 +1,7 @@
 package Chapter5_Stream;
 
-import java.lang.reflect.Method;
+import Chapter6_Collector.Currency;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,12 @@ public class Chapter5Mission {
             new Transaction(mario, 2012, 700),
             new Transaction(alan, 2012, 950)
     );
+
+    static void test() {
+        transactions.stream().filter(t -> t.getYear() == 2011)
+                .sorted(comparing(Transaction::getValue))
+                .collect(Collectors.toList());
+    }
 
     static void line() {
         System.out.println("-----------");
