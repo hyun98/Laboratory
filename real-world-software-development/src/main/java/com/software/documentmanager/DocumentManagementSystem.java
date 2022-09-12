@@ -17,9 +17,6 @@ public class DocumentManagementSystem {
         extensionToImporter.put("letter", new LetterImporter());
         extensionToImporter.put("report", new ReportImporter());
         extensionToImporter.put("jpg", new ImageImporter());
-    }
-    
-    {
         extensionToImporter.put("invoice", new InvoiceImporter());
     }
     
