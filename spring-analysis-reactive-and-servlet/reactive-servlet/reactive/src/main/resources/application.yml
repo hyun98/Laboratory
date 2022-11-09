@@ -1,0 +1,29 @@
+server:
+  port: 7001
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          r2dbc=DEBUG:
+
+spring:
+  profiles:
+    group:
+      "docker": "docker"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "docker"
+  r2dbc:
+    url: r2dbc:mysql://mysql:3306/reactive?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+    pool:
+      max-size: 1000
+
+server:
+  port: 8080
