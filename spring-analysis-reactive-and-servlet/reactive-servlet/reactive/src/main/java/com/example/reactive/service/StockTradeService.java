@@ -50,11 +50,11 @@ public class StockTradeService {
 
         User user = userRepository.findById(req.getUserId()).block();
         userRepository.setUserProperty(req.getUserId(), )
-        
+
         return stockRepository.findById(req.getStockId())
                 .switchIfEmpty(Mono.error(new RuntimeException("Stock does not exists")))
                 .log()
-                .map(s -> s);
+                .map(stock -> );
     }
     
     public Mono<StockTrade> buyStock(BuyStockReq req) {
