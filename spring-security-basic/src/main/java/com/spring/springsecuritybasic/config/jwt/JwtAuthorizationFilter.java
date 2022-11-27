@@ -1,6 +1,7 @@
 package com.spring.springsecuritybasic.config.jwt;
 
 import com.spring.springsecuritybasic.config.auth.PrincipalDetails;
+import com.spring.springsecuritybasic.config.auth.PrincipalDetailsService;
 import com.spring.springsecuritybasic.domain.User;
 import com.spring.springsecuritybasic.repository.UserRepository;
 import com.spring.springsecuritybasic.util.JwtUtil;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,6 +28,7 @@ import java.util.List;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final UserRepository userRepository;
+    private final PrincipalDetailsService principalDetailsService;
     private final JwtUtil jwtUtil;
 
     private static final String AUTHORIZATION_HEADER_STRING = "Authorization";
@@ -57,13 +60,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // token의 핵심은 무상태성인데 인증때마다 매번 db에 접근하면 token을 사용하는 의미가 퇴색?
             // db 접근 부분이 없어도 될 것 같음
             // 다중 로그인 여부, 토큰 만료시간과 같은 정책에 영향을 받을 듯하다.
-            List<User> userList = userRepository.findByUsername(username);
-            if (userList.isEmpty()) {
-                throw new RuntimeException("No User, Authorization Failed");
-            }
-            User user = userList.get(0);
-            
-            PrincipalDetails principalDetails = new PrincipalDetails(user);
+//            List<User> userList = userRepository.findByUsername(username);
+//            if (userList.isEmpty()) {
+//                throw new RuntimeException("No User, Authorization Failed");
+//            }
+//            User user = userList.get(0);
+
+            PrincipalDetails principalDetails = principalDetailsService.loadUserByUsername(username);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     principalDetails,
                     null,

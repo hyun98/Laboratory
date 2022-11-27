@@ -22,7 +22,7 @@ public class PrincipalDetails implements UserDetails {
     // GrantedAuthority 타입과 GrantedAuthority 타입을 상속받는 자손 클래스 타입만을 사용할 수 있음.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
         this.user.getRoles().forEach(r -> authorities.add(r));
         return authorities;
     }
