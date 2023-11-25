@@ -1,15 +1,17 @@
-package spring.lab.advanced.app.trace.hellotrace
+package spring.lab.advanced.trace.logtrace
 
 import mu.KLogger
 import mu.KotlinLogging
-import org.springframework.stereotype.Component
-import spring.lab.advanced.app.trace.TraceId
-import spring.lab.advanced.app.trace.TraceStatus
+import spring.lab.advanced.trace.TraceId
+import spring.lab.advanced.trace.TraceStatus
 import java.lang.StringBuilder
 
-@Component
-class HelloTraceV1 {
+
+class FieldLogTrace: LogTrace {
     private val log: KLogger = KotlinLogging.logger {}
+
+    // traceId 동기화, 동시성 이슈 발생함
+    private var traceIdHolder: TraceId? = null
 
     companion object {
         const val START_PREFIX = "-->"
@@ -17,19 +19,37 @@ class HelloTraceV1 {
         const val EX_PREFIX = "<X-"
     }
 
-    fun begin(message: String): TraceStatus {
-        val traceId = TraceId()
+    override fun begin(message: String): TraceStatus {
+        syncTraceId()
+
+        val traceId = traceIdHolder!!
         val startTimeMs = System.currentTimeMillis()
         log.info { "[${traceId.id}] ${addSpace(START_PREFIX, traceId.level)}${message}" }
         return TraceStatus(traceId, startTimeMs, message)
     }
 
-    fun end(status: TraceStatus) {
+    override fun end(status: TraceStatus) {
         complete(status, null)
     }
 
-    fun exception(status: TraceStatus, e: Exception) {
+    override fun exception(status: TraceStatus, e: Exception) {
         complete(status, e)
+    }
+
+    private fun syncTraceId() {
+        if (traceIdHolder == null) {
+            traceIdHolder = TraceId()
+        } else {
+            traceIdHolder = traceIdHolder!!.createNextId()
+        }
+    }
+
+    private fun releaseTraceId() {
+        if (traceIdHolder!!.isFirstLevel()) {
+            traceIdHolder = null // dispose
+        } else {
+            traceIdHolder = traceIdHolder!!.createPreviousId()
+        }
     }
 
     private fun complete(status: TraceStatus, e: Exception?) {
@@ -47,12 +67,13 @@ class HelloTraceV1 {
             }
         }
 
+        releaseTraceId()
     }
 
     private fun addSpace(prefix: String, level: Int): String {
         val sb = StringBuilder()
         for (i: Int in 0 until level) {
-            sb.append(if (i == level - 1) "|" else "|   ")
+            sb.append(if (i == level - 1) "|${prefix}" else "|   ")
         }
         return sb.toString()
     }

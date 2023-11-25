@@ -1,4 +1,4 @@
-package spring.lab.advanced.app.trace
+package spring.lab.advanced.trace
 
 import java.util.UUID
 

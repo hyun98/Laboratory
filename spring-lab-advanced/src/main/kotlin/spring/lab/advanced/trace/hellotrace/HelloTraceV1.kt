@@ -1,14 +1,14 @@
-package spring.lab.advanced.app.trace.hellotrace
+package spring.lab.advanced.trace.hellotrace
 
 import mu.KLogger
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import spring.lab.advanced.app.trace.TraceId
-import spring.lab.advanced.app.trace.TraceStatus
+import spring.lab.advanced.trace.TraceId
+import spring.lab.advanced.trace.TraceStatus
 import java.lang.StringBuilder
 
 @Component
-class HelloTraceV2 {
+class HelloTraceV1 {
     private val log: KLogger = KotlinLogging.logger {}
 
     companion object {
@@ -22,14 +22,6 @@ class HelloTraceV2 {
         val startTimeMs = System.currentTimeMillis()
         log.info { "[${traceId.id}] ${addSpace(START_PREFIX, traceId.level)}${message}" }
         return TraceStatus(traceId, startTimeMs, message)
-    }
-
-    // V2에서 추가됨
-    fun beginSync(beforeTraceId: TraceId, message: String): TraceStatus {
-        val nextId = beforeTraceId.createNextId()
-        val startTimeMs = System.currentTimeMillis()
-        log.info { "[${nextId.id}] ${addSpace(START_PREFIX, nextId.level)}${message}" }
-        return TraceStatus(nextId, startTimeMs, message)
     }
 
     fun end(status: TraceStatus) {
@@ -60,7 +52,7 @@ class HelloTraceV2 {
     private fun addSpace(prefix: String, level: Int): String {
         val sb = StringBuilder()
         for (i: Int in 0 until level) {
-            sb.append(if (i == level - 1) "|${prefix}" else "|   ")
+            sb.append(if (i == level - 1) "|" else "|   ")
         }
         return sb.toString()
     }

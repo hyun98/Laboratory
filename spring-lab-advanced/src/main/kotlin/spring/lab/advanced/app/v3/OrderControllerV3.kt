@@ -1,22 +1,22 @@
-package spring.lab.advanced.app.v2
+package spring.lab.advanced.app.v3
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import spring.lab.advanced.trace.TraceStatus
-import spring.lab.advanced.trace.hellotrace.HelloTraceV2
+import spring.lab.advanced.trace.logtrace.LogTrace
 
 @RestController
-class OrderControllerV2(
-    private val orderServiceV2: OrderServiceV2,
-    private val trace: HelloTraceV2
+class OrderControllerV3(
+    private val orderServiceV3: OrderServiceV3,
+    private val trace: LogTrace
 ) {
-    @GetMapping("/v2/request")
+    @GetMapping("/v3/request")
     fun request(itemId: String): String {
         var status: TraceStatus? = null
 
         try {
             status = trace.begin("OrderController.request()")
-            orderServiceV2.orderItem(status.traceId, itemId)
+            orderServiceV3.orderItem(itemId)
             trace.end(status)
             return "ok"
 

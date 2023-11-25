@@ -1,8 +1,8 @@
 package spring.lab.advanced.app.v1
 
 import org.springframework.stereotype.Repository
-import spring.lab.advanced.app.trace.TraceStatus
-import spring.lab.advanced.app.trace.hellotrace.HelloTraceV1
+import spring.lab.advanced.trace.TraceStatus
+import spring.lab.advanced.trace.hellotrace.HelloTraceV1
 import java.util.Timer
 
 @Repository

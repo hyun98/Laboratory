@@ -1,6 +1,7 @@
-package spring.lab.advanced.app.trace.hellotrace
+package spring.lab.advanced.trace.hellotrace
 
 import org.junit.jupiter.api.Test
+import spring.lab.advanced.trace.hellotrace.HelloTraceV2
 
 /**
  * 학습용 테스트 코드 입니다.

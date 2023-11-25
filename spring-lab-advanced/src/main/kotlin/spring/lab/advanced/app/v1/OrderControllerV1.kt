@@ -2,9 +2,9 @@ package spring.lab.advanced.app.v1
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import spring.lab.advanced.app.trace.TraceId
-import spring.lab.advanced.app.trace.TraceStatus
-import spring.lab.advanced.app.trace.hellotrace.HelloTraceV1
+import spring.lab.advanced.trace.TraceId
+import spring.lab.advanced.trace.TraceStatus
+import spring.lab.advanced.trace.hellotrace.HelloTraceV1
 
 @RestController
 class OrderControllerV1(

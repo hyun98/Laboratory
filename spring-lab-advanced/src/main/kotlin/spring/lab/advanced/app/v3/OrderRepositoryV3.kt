@@ -1,20 +1,20 @@
-package spring.lab.advanced.app.v2
+package spring.lab.advanced.app.v3
 
 import org.springframework.stereotype.Repository
 import spring.lab.advanced.trace.TraceId
 import spring.lab.advanced.trace.TraceStatus
-import spring.lab.advanced.trace.hellotrace.HelloTraceV2
+import spring.lab.advanced.trace.logtrace.LogTrace
 
 @Repository
-class OrderRepositoryV2(
-    private val trace: HelloTraceV2
+class OrderRepositoryV3(
+    private val trace: LogTrace
 ) {
-    fun save(traceId: TraceId, itemId: String) {
+    fun save(itemId: String) {
 
         var status: TraceStatus? = null
 
         try {
-            status = trace.beginSync(traceId, "OrderRepository.save()")
+            status = trace.begin("OrderRepository.save()")
 
             // 저장 로직
             if (itemId == "ex") {
