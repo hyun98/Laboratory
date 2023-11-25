@@ -2,6 +2,9 @@ package spring.lab.advanced.proxy.decorator
 
 import mu.KotlinLogging
 import org.junit.jupiter.api.Test
+import spring.lab.advanced.proxy.decorator.code.MessageDecorator
+import spring.lab.advanced.proxy.decorator.code.RealComponent
+import spring.lab.advanced.proxy.decorator.code.TimeDecorator
 
 class DecoratorPatternTest {
     private val log = KotlinLogging.logger {  }
