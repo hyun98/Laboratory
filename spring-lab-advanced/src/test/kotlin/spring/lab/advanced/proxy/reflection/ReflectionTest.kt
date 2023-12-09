@@ -48,7 +48,7 @@ class ReflectionTest {
         log.info { "result1 = $result1" }
 
         val methodCallB = classHello.getMethod("callB")
-        val result2 = methodCallA.invoke(target)
+        val result2 = methodCallB.invoke(target)
         log.info { "result2 = $result2" }
     }
 
@@ -65,7 +65,7 @@ class ReflectionTest {
         dynamicCall(methodCallA, target)
 
         val methodCallB = classHello.getMethod("callB")
-        val result2 = methodCallA.invoke(target)
+        val result2 = methodCallB.invoke(target)
         log.info { "result2 = $result2" }
     }
 
